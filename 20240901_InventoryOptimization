@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+#dados em CSV
+#dados=pd.read_csv('/content/drive/MyDrive/nome_do_seu_arquivo.csv',sep=',')
+#Dados em xlsx
+data = pd.read_excel('/content/drive/MyDrive/20240109_Estoque.xlsx')
+
+#Check if the data was loaded correctly
+print(data)
+
+# Create new matrix
+dados = np.copy(data)
+print(dados)
+
+# Create empty matrix for inventory
+inventory_matrix = np.zeros((len(dados),len(dados.T)-1))
+inventory_matrix.shape
+
+# Loop for the inventory
+for i in range(len(dados)):
+  #for j in range(len(dados.T)):
+    inventory_matrix[i][0]=((2*dados[i][1]*dados[i][3]/dados[i][2]))**0.5 ## Here we get the optimal number for the inventory
+    inventory_matrix[i][1]=inventory_matrix[i][0]/dados[i][1] ## Here we get the period of replanishing the invetory
+    inventory_matrix[i][2]=inventory_matrix[i][0]*dados[i][2] ## Here we get the cost per item to be restocked
+
+
+# Check the new matrix
+# print(inventory_matrix)
+print(inventory_matrix[999][:])
+
+# Checking the matrix
+print(inventory_matrix)
